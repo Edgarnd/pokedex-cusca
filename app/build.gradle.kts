@@ -2,10 +2,13 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    kotlin("kapt")
+    alias(libs.plugins.kapt)
+    alias(libs.plugins.hilt)
 }
 
-apply(plugin = "dagger.hilt.android.plugin")
+hilt {
+    enableAggregatingTask = false
+}
 
 android {
     namespace = "com.edgar.pokedexapp"
@@ -43,6 +46,9 @@ android {
 }
 
 dependencies {
+    implementation(project(":core-model"))
+    implementation(project(":core-network"))
+    implementation(project(":core-repository"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -60,6 +66,8 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    implementation("com.google.dagger:hilt-android:2.52")
-    kapt("com.google.dagger:hilt-compiler:2.52")
+    implementation(libs.okhttp)
+    implementation(libs.gson)
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
 }
