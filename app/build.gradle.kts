@@ -46,9 +46,10 @@ android {
 }
 
 dependencies {
-    implementation(project(":core-model"))
+//    implementation(project(":core-model"))
     implementation(project(":core-network"))
     implementation(project(":core-repository"))
+    implementation(project(":pokemon-list"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -68,6 +69,7 @@ dependencies {
 
     implementation(libs.okhttp)
     implementation(libs.gson)
+    implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 }
