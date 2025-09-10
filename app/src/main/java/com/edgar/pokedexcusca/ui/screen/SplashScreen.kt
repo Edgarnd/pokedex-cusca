@@ -2,14 +2,15 @@ package com.edgar.pokedexcusca.ui.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.*
-import androidx.compose.runtime.R
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.platform.LocalContext
+import coil.ImageLoader
+import coil.decode.GifDecoder
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
+import com.edgar.pokedexcusca.R
 import kotlinx.coroutines.delay
 
 @Composable
@@ -17,7 +18,7 @@ fun SplashScreen(
     onFinishTime: () -> Unit
 ) {
     LaunchedEffect(Unit) {
-        delay(2000L)
+        delay(3000L)
         onFinishTime()
     }
 
@@ -26,14 +27,23 @@ fun SplashScreen(
         contentAlignment = Alignment.Center
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Image(
-                painter = painterResource(id = android.R.drawable.star_on),
-                contentDescription = "Logo"
+            val context = LocalContext.current
+
+            val imageLoader = ImageLoader.Builder(context)
+                .components {
+                    add(GifDecoder.Factory())
+                }
+                .build()
+
+            val painter = rememberAsyncImagePainter(
+                model = ImageRequest.Builder(context)
+                    .data(R.drawable.pokeball_splash)
+                    .build(),
+                imageLoader = imageLoader
             )
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                text = "Pokedex",
-                style = MaterialTheme.typography.headlineMedium
+            Image(
+                painter = painter,
+                contentDescription = ""
             )
         }
     }

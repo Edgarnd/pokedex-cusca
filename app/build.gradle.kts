@@ -69,6 +69,8 @@ dependencies {
 
     implementation(libs.okhttp)
     implementation(libs.gson)
+    implementation(libs.coil.compose)
+    implementation(libs.coil.gif)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)

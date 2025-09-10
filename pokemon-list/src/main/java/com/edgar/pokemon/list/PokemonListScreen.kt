@@ -8,7 +8,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.edgar.core.ui.header.PokedexHeader
+import com.edgar.core.ui.loader.LoaderDialog
 
 @Composable
 fun PokemonListScreen(
@@ -20,10 +26,31 @@ fun PokemonListScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+            .padding(top = WindowInsets.statusBars.asPaddingValues().calculateTopPadding() + 16.dp,
+                start = 24.dp,
+                end = 24.dp),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally,
+
     ) {
+        LoaderDialog(
+            show = viewModel.loading,
+            onDismiss = { viewModel.loading = false }
+        )
+        PokedexHeader()
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            text = buildAnnotatedString {
+                append("¡Hola, ")
+                pushStyle(SpanStyle(fontWeight = FontWeight.Bold))
+                append("bienvenido")
+                pop()
+                append("!")
+            },
+            fontSize = 20.sp,
+            modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(16.dp))
         if (error != null) {
             Text("Error: $error")
         } else if (pokemons.isEmpty()) {
