@@ -1,4 +1,4 @@
-package com.edgar.pokedexapp.ui.theme
+package com.edgar.pokedexcusca.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

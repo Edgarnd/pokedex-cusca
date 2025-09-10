@@ -11,11 +11,11 @@ hilt {
 }
 
 android {
-    namespace = "com.edgar.pokedexapp"
+    namespace = "com.edgar.pokedexcusca"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.edgar.pokedexapp"
+        applicationId = "com.edgar.pokedexcusca"
         minSdk = 24
         targetSdk = 35
         versionCode = 1

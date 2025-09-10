@@ -1,4 +1,4 @@
-package com.edgar.pokedexapp
+package com.edgar.pokedexcusca
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.edgar.pokedexapp", appContext.packageName)
+        assertEquals("com.edgar.pokedexcusca", appContext.packageName)
     }
 }

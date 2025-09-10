@@ -19,7 +19,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "PokedexApp"
+rootProject.name = "PokedexCusca"
 include(":app")
 include(":core-network")
 include(":core-model")
