@@ -1,4 +1,4 @@
-package com.edgar.pokedexapp.ui.theme
+package com.edgar.pokedexcusca.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

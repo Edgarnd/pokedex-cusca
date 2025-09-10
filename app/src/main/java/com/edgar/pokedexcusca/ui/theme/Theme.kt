@@ -1,4 +1,4 @@
-package com.edgar.pokedexapp.ui.theme
+package com.edgar.pokedexcusca.ui.theme
 
 import android.app.Activity
 import android.os.Build
@@ -34,7 +34,7 @@ private val LightColorScheme = lightColorScheme(
 )
 
 @Composable
-fun PokedexAppTheme(
+fun PokedexCuscaTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
