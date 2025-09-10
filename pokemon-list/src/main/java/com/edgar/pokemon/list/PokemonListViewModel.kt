@@ -9,6 +9,7 @@ import com.edgar.core.model.pokemon.Pokemon
 import com.edgar.core.repository.PokemonRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -24,19 +25,25 @@ class PokemonListViewModel @Inject constructor(
     var errorMessage by mutableStateOf<String?>(null)
         private set
 
+    var loading by mutableStateOf(false)
+
     init {
         loadPokemons()
     }
 
     fun loadPokemons(page: Int = 0) {
         viewModelScope.launch {
+            loading = true
             try {
+                delay(2000L)
                 val list = withContext(Dispatchers.IO){
                     repository.getPokemons(page)
                 }
                 pokemons = list
             } catch (e: Exception) {
                 errorMessage = e.message
+            } finally {
+                loading = false
             }
         }
     }
