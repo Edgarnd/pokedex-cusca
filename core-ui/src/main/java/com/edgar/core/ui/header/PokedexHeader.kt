@@ -35,7 +35,7 @@ fun PokedexHeader() {
         Spacer(modifier = Modifier.width(16.dp))
         Text(
             text = "Pokédex",
-            fontSize = 24.sp,
+            fontSize = 28.sp,
             fontWeight = FontWeight.SemiBold,
             color = Color(0xFF005FFF)
         )

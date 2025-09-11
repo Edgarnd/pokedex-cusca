@@ -6,8 +6,8 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import com.edgar.core.ui.theme.PokedexCuscaTheme
 import com.edgar.pokedexcusca.navigation.AppNavHost
-import com.edgar.pokedexcusca.ui.theme.PokedexCuscaTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
