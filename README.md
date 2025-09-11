@@ -13,6 +13,7 @@ La interfaz está completamente construida con **Jetpack Compose**, ofreciendo u
 - **Arquitectura:** MVVM
 - **Inyección de Dependencias:** Hilt
 - **IDE:** Android Studio Meerkat (versión específica utilizada: 2024.3.2)
+- **AGP:** 8.10.1
 - **JDK:** OpenJDK 17
 - **API:** OpenAPI / RESTful API con PokéAPI
 - **Gestión de imágenes:** Coil para cargar sprites de Pokemon y GIFs
