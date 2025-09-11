@@ -21,4 +21,8 @@ class PokemonRepository @Inject constructor(
     suspend fun getPokemonDetail(url: String): PokemonDetail {
         return api.getPokemonDetail(url)
     }
+
+    suspend fun getAllPokemons(): List<Pokemon> {
+        return api.getAllPokemons().results
+    }
 }

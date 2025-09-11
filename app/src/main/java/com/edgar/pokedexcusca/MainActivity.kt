@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import com.edgar.core.ui.base.ClearFocusOnTap
 import com.edgar.core.ui.theme.PokedexCuscaTheme
 import com.edgar.pokedexcusca.navigation.AppNavHost
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,7 +18,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             PokedexCuscaTheme {
-                AppNavHost()
+                ClearFocusOnTap {
+                    AppNavHost()
+                }
             }
         }
     }
