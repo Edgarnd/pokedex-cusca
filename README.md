@@ -53,4 +53,4 @@ La interfaz está completamente construida con **Jetpack Compose**, ofreciendo u
 
 1. Clonar el repositorio:
 ```bash
-git clone https://github.com/Edgarnd/pokemon-cusca.git
+git clone https://github.com/Edgarnd/pokedex-cusca.git
