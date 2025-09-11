@@ -30,11 +30,12 @@ import com.edgar.pokemon.list.composable.PokemonGrid
 
 @Composable
 fun PokemonListScreen(
-    viewModel: PokemonListViewModel = hiltViewModel()
+    viewModel: PokemonListViewModel = hiltViewModel(),
+    onPokemonClick: (String) -> Unit
 ) {
     val pokemons = viewModel.pokemons
     val error = viewModel.errorMessage
-    var query by remember { mutableStateOf("") }
+    val query = viewModel.query
 
     Column(
         modifier = Modifier
@@ -44,7 +45,6 @@ fun PokemonListScreen(
                 end = 24.dp),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
-
     ) {
         LoaderDialog(
             show = viewModel.loading,
@@ -56,7 +56,7 @@ fun PokemonListScreen(
         OutlinedTextField(
             value = query,
             onValueChange = {
-                query = it
+                viewModel.query = it
                 viewModel.searchPokemons(it)
             },
             label = { Text("Buscar Pokémon") },
@@ -113,6 +113,9 @@ fun PokemonListScreen(
                     if(query.isEmpty()){
                         viewModel.loadPokemons()
                     }
+                },
+                onItemClick = { pokemon ->
+                    onPokemonClick(pokemon.url)
                 }
             )
         }

@@ -50,6 +50,7 @@ dependencies {
     implementation(project(":core-network"))
     implementation(project(":core-repository"))
     implementation(project(":pokemon-list"))
+    implementation(project(":pokemon-detail"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

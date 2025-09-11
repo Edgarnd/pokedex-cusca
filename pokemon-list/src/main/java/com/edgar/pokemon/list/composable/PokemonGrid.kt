@@ -1,13 +1,13 @@
 package com.edgar.pokemon.list.composable
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -27,12 +27,12 @@ import coil.compose.AsyncImage
 import com.edgar.core.ui.text.capitalizeWords
 import com.edgar.core.ui.text.toCardinal
 import com.edgar.pokemon.list.PokemonListViewModel
-import com.edgar.pokemon.list.R
 
 @Composable
 fun PokemonGrid(
     pokemons: List<Pokemon>,
     onLoadMore: () -> Unit,
+    onItemClick: (Pokemon) -> Unit,
     isLoading: Boolean
 ) {
     val listState = rememberLazyGridState()
@@ -43,7 +43,10 @@ fun PokemonGrid(
         state = listState,
     ) {
         items(pokemons.size) { index ->
-            PokemonItemList(pokemon = pokemons[index])
+            PokemonItemList(
+                pokemon = pokemons[index],
+                onClick = { onItemClick(pokemons[index]) }
+            )
 
             if (index == pokemons.size - 1 && !isLoading) {
                 LaunchedEffect(Unit) {
@@ -57,7 +60,8 @@ fun PokemonGrid(
 @Composable
 fun PokemonItemList(
     viewModel: PokemonListViewModel = hiltViewModel(),
-    pokemon: Pokemon
+    pokemon: Pokemon,
+    onClick: () -> Unit
 ){
     val detail = viewModel.pokemonsDetail[pokemon.name]
     var error by remember { mutableStateOf<String?>(null) }
@@ -71,7 +75,8 @@ fun PokemonItemList(
     Card(
         modifier = Modifier
             .padding(8.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable { onClick() },
         shape = MaterialTheme.shapes.medium,
         colors = CardDefaults.cardColors(
             containerColor = if (isSystemInDarkTheme()) Color.DarkGray else Color.White
