@@ -3,6 +3,7 @@ package com.edgar.pokemon.list
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -32,6 +33,8 @@ class PokemonListViewModel @Inject constructor(
     var loading by mutableStateOf(false)
 
     var loadingList by mutableStateOf(false)
+
+    var query by mutableStateOf("")
 
     private var allPokemons: List<Pokemon> = emptyList()
 
@@ -85,6 +88,7 @@ class PokemonListViewModel @Inject constructor(
         viewModelScope.launch {
             loading = true
             try {
+                delay(2000L)
                 val list = withContext(Dispatchers.IO) {
                     repository.getAllPokemons()
                 }
