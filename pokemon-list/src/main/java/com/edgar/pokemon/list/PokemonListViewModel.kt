@@ -1,0 +1,79 @@
+package com.edgar.pokemon.list
+
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateMapOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.edgar.core.model.pokemon.Pokemon
+import com.edgar.core.model.pokemon.PokemonDetail
+import com.edgar.core.repository.PokemonRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import javax.inject.Inject
+
+@HiltViewModel
+class PokemonListViewModel @Inject constructor(
+    private val repository: PokemonRepository
+) : ViewModel() {
+    private val _pokemonsDetail = mutableStateMapOf<String, PokemonDetail?>()
+    val pokemonsDetail: Map<String, PokemonDetail?> get() = _pokemonsDetail
+
+    var pokemons by mutableStateOf<List<Pokemon>>(emptyList())
+        private set
+
+    var errorMessage by mutableStateOf<String?>(null)
+        private set
+
+    var loading by mutableStateOf(false)
+
+    var loadingList by mutableStateOf(false)
+
+    private var currentPage = 0
+    private var isLastPage = false
+
+    init {
+        loadPokemons()
+    }
+
+    fun loadPokemons() {
+        if (loadingList || isLastPage) return
+
+        viewModelScope.launch {
+            loadingList = true
+            try {
+                val list = withContext(Dispatchers.IO) {
+                    repository.getPokemons(currentPage)
+                }
+
+                if (list.isEmpty()) {
+                    isLastPage = true
+                } else {
+                    currentPage++
+                    pokemons = pokemons + list
+                }
+            } catch (e: Exception) {
+                errorMessage = e.message
+            } finally {
+                loadingList = false
+            }
+        }
+    }
+
+    fun getPokemonDetail(pokemon: Pokemon) {
+        if (_pokemonsDetail.containsKey(pokemon.name)) return
+        viewModelScope.launch {
+            try {
+                val result = withContext(Dispatchers.IO){
+                    repository.getPokemonDetail(pokemon.url)
+                }
+                _pokemonsDetail[pokemon.name] = result
+            } catch (_: Exception) {
+            }
+        }
+    }
+}

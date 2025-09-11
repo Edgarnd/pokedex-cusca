@@ -2,14 +2,20 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kapt)
+    alias(libs.plugins.hilt)
+}
+
+hilt {
+    enableAggregatingTask = false
 }
 
 android {
-    namespace = "com.edgar.pokedexapp"
+    namespace = "com.edgar.pokedexcusca"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.edgar.pokedexapp"
+        applicationId = "com.edgar.pokedexcusca"
         minSdk = 24
         targetSdk = 35
         versionCode = 1
@@ -40,6 +46,10 @@ android {
 }
 
 dependencies {
+    implementation(project(":core-ui"))
+    implementation(project(":core-network"))
+    implementation(project(":core-repository"))
+    implementation(project(":pokemon-list"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -56,4 +66,12 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    implementation(libs.okhttp)
+    implementation(libs.gson)
+    implementation(libs.coil.compose)
+    implementation(libs.coil.gif)
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
 }
