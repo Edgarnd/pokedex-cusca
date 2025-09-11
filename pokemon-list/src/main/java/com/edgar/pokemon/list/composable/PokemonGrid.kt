@@ -1,12 +1,13 @@
 package com.edgar.pokemon.list.composable
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -19,6 +20,7 @@ import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
@@ -30,6 +32,7 @@ import com.edgar.pokemon.list.PokemonListViewModel
 fun PokemonGrid(
     pokemons: List<Pokemon>,
     onLoadMore: () -> Unit,
+    onItemClick: (Pokemon) -> Unit,
     isLoading: Boolean
 ) {
     val listState = rememberLazyGridState()
@@ -40,7 +43,10 @@ fun PokemonGrid(
         state = listState,
     ) {
         items(pokemons.size) { index ->
-            PokemonItemList(pokemon = pokemons[index])
+            PokemonItemList(
+                pokemon = pokemons[index],
+                onClick = { onItemClick(pokemons[index]) }
+            )
 
             if (index == pokemons.size - 1 && !isLoading) {
                 LaunchedEffect(Unit) {
@@ -54,11 +60,13 @@ fun PokemonGrid(
 @Composable
 fun PokemonItemList(
     viewModel: PokemonListViewModel = hiltViewModel(),
-    pokemon: Pokemon
+    pokemon: Pokemon,
+    onClick: () -> Unit
 ){
     val detail = viewModel.pokemonsDetail[pokemon.name]
     var error by remember { mutableStateOf<String?>(null) }
     var loading by remember { mutableStateOf(true) }
+    val urlImage = detail?.sprites?.other?.home?.frontDefault ?: detail?.sprites?.other?.home?.frontDefault ?: detail?.sprites?.frontDefault
 
     LaunchedEffect(pokemon.url) {
         viewModel.getPokemonDetail(pokemon)
@@ -67,7 +75,8 @@ fun PokemonItemList(
     Card(
         modifier = Modifier
             .padding(8.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable { onClick() },
         shape = MaterialTheme.shapes.medium,
         colors = CardDefaults.cardColors(
             containerColor = if (isSystemInDarkTheme()) Color.DarkGray else Color.White
@@ -91,10 +100,16 @@ fun PokemonItemList(
                     }
                     Row(modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.Center){
-                        PokemonImage(
-                            url = detail.sprites?.other?.home?.frontDefault ?: detail.sprites!!.other!!.home!!.frontDefault!!,
-                            modifier = Modifier.size(92.dp)
-                        )
+                        if(urlImage != null)
+                            PokemonImage(
+                                url = urlImage,
+                                modifier = Modifier.size(92.dp)
+                            )
+                        else
+                            Image(
+                                painter = painterResource(com.edgar.core.ui.R.drawable.pokeball_header),
+                                contentDescription = ""
+                            )
                     }
                     Row (modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.Center) {

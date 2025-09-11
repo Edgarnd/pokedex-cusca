@@ -3,6 +3,7 @@ package com.edgar.core.repository
 import com.edgar.core.model.pokemon.Pokemon
 import com.edgar.core.network.PokemonApi
 import com.edgar.core.model.pokemon.PokemonDetail
+import com.edgar.core.model.pokemon.PokemonSpecies
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -20,5 +21,13 @@ class PokemonRepository @Inject constructor(
 
     suspend fun getPokemonDetail(url: String): PokemonDetail {
         return api.getPokemonDetail(url)
+    }
+
+    suspend fun getAllPokemons(): List<Pokemon> {
+        return api.getAllPokemons().results
+    }
+
+    suspend fun getPokemonSpecies(id: Int): PokemonSpecies {
+        return api.getPokemonSpecies(id)
     }
 }

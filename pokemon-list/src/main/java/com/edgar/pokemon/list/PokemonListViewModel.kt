@@ -3,6 +3,7 @@ package com.edgar.pokemon.list
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -33,11 +34,16 @@ class PokemonListViewModel @Inject constructor(
 
     var loadingList by mutableStateOf(false)
 
+    var query by mutableStateOf("")
+
+    private var allPokemons: List<Pokemon> = emptyList()
+
     private var currentPage = 0
     private var isLastPage = false
 
     init {
         loadPokemons()
+        loadAllPokemons()
     }
 
     fun loadPokemons() {
@@ -55,6 +61,7 @@ class PokemonListViewModel @Inject constructor(
                 } else {
                     currentPage++
                     pokemons = pokemons + list
+                    errorMessage = null
                 }
             } catch (e: Exception) {
                 errorMessage = e.message
@@ -74,6 +81,35 @@ class PokemonListViewModel @Inject constructor(
                 _pokemonsDetail[pokemon.name] = result
             } catch (_: Exception) {
             }
+        }
+    }
+
+    private fun loadAllPokemons() {
+        viewModelScope.launch {
+            loading = true
+            try {
+                delay(2000L)
+                val list = withContext(Dispatchers.IO) {
+                    repository.getAllPokemons()
+                }
+                allPokemons = list
+                pokemons = list.take(20)
+            } catch (e: Exception) {
+                errorMessage = e.message
+            } finally {
+                loading = false
+            }
+        }
+    }
+
+    fun searchPokemons(query: String) {
+        if (query.isBlank()) {
+            pokemons = allPokemons.take(20)
+            return
+        }
+
+        pokemons = allPokemons.filter {
+            it.name.contains(query, ignoreCase = true)
         }
     }
 }

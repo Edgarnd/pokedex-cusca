@@ -2,12 +2,14 @@ package com.edgar.core.ui.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
@@ -16,6 +18,7 @@ private val DarkColorScheme = darkColorScheme(
     secondary = Color(0xFFFFC600),
     tertiary = Color.White,
     onTertiary = Color.White,
+    onBackground = Color.White,
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -23,7 +26,9 @@ private val LightColorScheme = lightColorScheme(
     secondary = Color(0xFFFFC600),
     tertiary = Color(0xFF01426A),
     onTertiary = Color(0xFF01243A),
-    background = Color(0xFFF8F8F8)
+    background = Color(0xFFF8F8F8),
+    onBackground = Color(0xFF2F2F2F),
+
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
@@ -48,6 +53,10 @@ fun PokedexCuscaTheme(
     MaterialTheme(
         colorScheme = colorScheme,
         typography = Typography,
-        content = content
+        content = {
+            CompositionLocalProvider(LocalContentColor provides colorScheme.onBackground) {
+                content()
+            }
+        }
     )
 }
